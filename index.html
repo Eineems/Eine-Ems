@@ -161,6 +161,60 @@
       padding:6px 10px; border-radius:999px; font-weight:700; cursor:pointer;
     }
 
+    
+    .news{
+      margin-top:34px;
+    }
+    .news-card{
+      padding:28px;
+    }
+    .news-top{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:flex-end;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .news-help{
+      color:var(--muted);
+      font-size:.96rem;
+      background:#f7fbff;
+      border:1px solid var(--border);
+      padding:10px 12px;
+      border-radius:14px;
+    }
+    .news-list{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+    .news-item{
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
+    }
+    .news-date{
+      display:inline-block;
+      font-size:.85rem;
+      font-weight:700;
+      color:var(--blue);
+      background:#eef5ff;
+      padding:6px 10px;
+      border-radius:999px;
+      margin-bottom:10px;
+    }
+    .news-item h3{
+      font-size:1.08rem;
+      margin-bottom:8px;
+    }
+    .news-item p{
+      margin:0;
+      color:var(--muted);
+      font-size:.98rem;
+    }
+
     .contact{margin-top:34px}
     .contact-card{
       padding:28px; display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center;
@@ -191,7 +245,7 @@
     .leaflet-popup-content{font-size:14px; line-height:1.35}
 
     @media (max-width:1000px){
-      .hero-grid,.content-grid,.legal,.contact-card,.stats{grid-template-columns:1fr}
+      .hero-grid,.content-grid,.legal,.contact-card,.stats,.news-list{grid-template-columns:1fr}
       .partner-card{position:static}
       #map{height:460px}
       .nav-inner{padding:10px 0; align-items:flex-start; flex-direction:column}
@@ -211,6 +265,7 @@
         <a href="#about">Über uns</a>
         <a href="#mapSection">Karte öffnen</a>
         <a href="#partnerSection">Netzwerkpartner</a>
+        <a href="#news">Aktuelles</a>
         <a href="#contact">Kontakt</a>
       </div>
     </div>
@@ -257,6 +312,25 @@
         <div id="partnerList" class="partner-list"></div>
       </aside>
     </section>
+
+    
+    <section id="news" class="news">
+      <div class="card news-card">
+        <div class="news-top">
+          <div>
+            <h2 class="section-title" style="margin-bottom:8px;">Aktuelles</h2>
+            <p class="section-text" style="margin-bottom:0;">
+              Hier könnt ihr aktuelle Hinweise, Termine, Aktionen oder neue Vernetzungsschritte sichtbar machen.
+            </p>
+          </div>
+          <div class="news-help">
+            Zum Bearbeiten einfach im Code den Bereich <strong>newsItems</strong> anpassen.
+          </div>
+        </div>
+        <div id="newsList" class="news-list"></div>
+      </div>
+    </section>
+
 
     <section id="contact" class="contact">
       <div class="card contact-card">
@@ -429,10 +503,42 @@
       });
     }
 
+    
+    const newsItems = [
+      {
+        date: "Neu",
+        title: "Willkommen bei Eine Ems – für alle",
+        text: "Diese Website ist der Startpunkt für unser Netzwerk entlang der Ems. Hier sammeln wir Kontakte, Orte und aktuelle Hinweise."
+      },
+      {
+        date: "Beispiel",
+        title: "Nächster Austausch in Planung",
+        text: "Ein erstes offenes Treffen oder digitaler Austausch kann hier angekündigt werden, sobald Termin und Ort feststehen."
+      },
+      {
+        date: "Mitmachen",
+        title: "Neue Partner können ergänzt werden",
+        text: "Wenn du eine Initiative, einen Verein oder einen Ort kennst, der auf die Karte gehört, schreib uns an eineems@web.de."
+      }
+    ];
+
+    function renderNews() {
+      const list = document.getElementById('newsList');
+      if (!list) return;
+      list.innerHTML = newsItems.map(item => `
+        <article class="news-item">
+          <span class="news-date">${item.date}</span>
+          <h3>${item.title}</h3>
+          <p>${item.text}</p>
+        </article>
+      `).join('');
+    }
+
     document.getElementById('search').addEventListener('input', renderPartners);
 
     renderFilters();
     renderPartners();
+    renderNews();
   </script>
 </body>
 </html>
