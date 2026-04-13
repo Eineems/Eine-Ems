@@ -7,358 +7,197 @@
   <meta name="description" content="Netzwerk für Solidarität, Vielfalt und Zusammenhalt entlang der Ems." />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <style>
-    :root {
-      --blue: #1e5aa8;
-      --blue2: #63aceb;
-      --green: #73be28;
-      --orange: #f28a19;
-      --dark: #18325c;
-      --text: #24364d;
-      --muted: #5f6f86;
-      --bg: #f4f6fa;
-      --card: #ffffff;
-      --border: #dfe7f2;
-      --shadow: 0 14px 32px rgba(24,50,92,.12);
-      --radius: 22px;
-      --max: 1240px;
+    :root{
+      --blue:#1f56b9;
+      --blue2:#63aceb;
+      --green:#73be28;
+      --orange:#f28a19;
+      --dark:#18325c;
+      --text:#24364d;
+      --muted:#5f6f86;
+      --bg:#f4f6fa;
+      --card:#ffffff;
+      --border:#dfe7f2;
+      --shadow:0 14px 32px rgba(24,50,92,.12);
+      --radius:22px;
+      --max:1240px;
     }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.5;
+    }
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:min(calc(100% - 32px),var(--max));margin:0 auto}
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.5;
+    .nav{
+      background:#fff;
+      border-bottom:1px solid rgba(31,86,185,.08);
+      position:sticky; top:0; z-index:1000;
     }
+    .nav-inner{
+      min-height:92px;
+      display:flex; align-items:center; justify-content:space-between; gap:24px;
+    }
+    .brand img{height:76px;width:auto;display:block}
+    .nav-links{
+      display:flex; gap:28px; align-items:center; flex-wrap:wrap;
+      font-weight:700;
+    }
+    .nav-links a{color:var(--blue);font-size:1rem}
 
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .container { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
-
-    .nav {
-      background: #fff;
-      border-bottom: 1px solid rgba(30,90,168,.08);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .nav-inner {
-      min-height: 92px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-    .brand img {
-      height: 76px;
-      width: auto;
-      display: block;
-    }
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      align-items: center;
-      flex-wrap: wrap;
-      font-weight: 700;
-    }
-    .nav-links a {
-      color: var(--blue);
-      font-size: 1rem;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
+    .hero{
+      position:relative; overflow:hidden; color:#fff;
       background:
         radial-gradient(circle at top right, rgba(255,255,255,.16), transparent 30%),
         linear-gradient(100deg, #1f56b9 0%, #2c71d8 52%, #63aceb 100%);
-      color: #fff;
-      padding: 46px 0 82px;
+      padding:50px 0 86px;
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      left: -8%;
-      right: -8%;
-      bottom: -95px;
-      height: 190px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.24));
-      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-      transform: rotate(-2deg);
-      opacity: .95;
+    .hero:after{
+      content:"";
+      position:absolute; left:-8%; right:-8%; bottom:-95px; height:190px;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.24));
+      border-radius:50% 50% 0 0 / 100% 100% 0 0;
+      transform:rotate(-2deg);
+      opacity:.95;
     }
-    .hero-grid {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      align-items: center;
+    .hero-grid{
+      position:relative; z-index:2;
+      display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center;
     }
-    h1, h2, h3 {
-      margin: 0 0 14px;
-      line-height: 1.12;
-      color: var(--dark);
+    .hero h1{
+      margin:0 0 14px; color:#fff; line-height:1.02;
+      font-size:clamp(3rem,5vw,5.4rem);
+      font-weight:900; text-transform:uppercase; max-width:8ch;
     }
-    .hero h1 {
-      color: #fff;
-      font-size: clamp(2.9rem, 5vw, 5.3rem);
-      font-weight: 900;
-      letter-spacing: .01em;
-      text-transform: uppercase;
-      max-width: 8ch;
+    .hero-sub{
+      color:#fff; font-size:clamp(1.3rem,2.4vw,2.3rem);
+      font-weight:800; max-width:13ch; margin-bottom:28px;
     }
-    .hero-sub {
-      color: #fff;
-      font-size: clamp(1.3rem, 2.4vw, 2.3rem);
-      font-weight: 800;
-      max-width: 12ch;
-      margin-bottom: 28px;
+    .button{
+      display:inline-block; background:#fff; color:var(--orange);
+      border-radius:999px; padding:16px 34px; font-weight:800;
+      box-shadow:var(--shadow);
     }
-    .button {
-      display: inline-block;
-      background: #fff;
-      color: var(--orange);
-      border-radius: 999px;
-      padding: 16px 34px;
-      font-weight: 800;
-      box-shadow: var(--shadow);
+    .hero-visual{
+      display:flex; justify-content:center; align-items:center; min-height:320px;
     }
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 320px;
-    }
-    .hero-visual img {
-      width: min(100%, 460px);
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 16px 28px rgba(0,0,0,.14));
+    .hero-visual img{
+      width:min(100%,480px); height:auto; display:block;
+      filter:drop-shadow(0 16px 28px rgba(0,0,0,.14));
     }
 
-    main {
-      padding: 44px 0 56px;
+    main{padding:44px 0 56px}
+    .section-title{
+      font-size:clamp(1.8rem,2.6vw,2.7rem);
+      color:var(--dark); margin:0 0 12px;
+    }
+    .section-text{
+      color:var(--muted); font-size:1.08rem; max-width:72ch; margin:0 0 20px;
     }
 
-    .section-title {
-      font-size: clamp(1.8rem, 2.6vw, 2.7rem);
-      color: var(--dark);
-      margin-bottom: 12px;
+    .content-grid{
+      display:grid; grid-template-columns:1.8fr .95fr; gap:22px; align-items:start;
     }
-    .section-text {
-      color: var(--muted);
-      font-size: 1.08rem;
-      max-width: 72ch;
-      margin: 0 0 20px;
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .map-card{padding:20px}
+    .partner-card{padding:22px; position:sticky; top:108px}
+
+    .filters{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px}
+    .filter-btn{
+      border:1px solid var(--border); background:#fff; color:var(--dark);
+      border-radius:999px; padding:9px 13px; font-weight:700; cursor:pointer;
+    }
+    .filter-btn.active{
+      background:linear-gradient(135deg,var(--blue),var(--green));
+      color:#fff; border-color:transparent;
+    }
+    #map{
+      width:100%; height:620px; border-radius:18px; overflow:hidden;
+      border:1px solid var(--border);
     }
 
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1.8fr .95fr;
-      gap: 22px;
-      align-items: start;
+    .stats{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:18px;
+    }
+    .stat{
+      background:#fff; border:1px solid var(--border); border-radius:16px;
+      padding:16px; text-align:center;
+    }
+    .stat strong{display:block; color:var(--dark); font-size:1.35rem}
+    .stat span{color:var(--muted); font-size:.95rem}
+
+    .partner-card h3{font-size:1.15rem; margin:0 0 12px}
+    .partner-card input{
+      width:100%; padding:14px; border-radius:14px; border:1px solid var(--border);
+      font-size:1rem; margin-bottom:14px;
+    }
+    .partner-count{color:var(--muted); font-size:.96rem; margin-bottom:10px}
+    .partner-list{
+      display:flex; flex-direction:column; gap:10px;
+      max-height:580px; overflow:auto; padding-right:4px;
+    }
+    .partner-item{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 0; border-bottom:1px solid #edf2f7;
+    }
+    .partner-dot{
+      width:12px; height:12px; border-radius:50%; margin-top:4px; flex:0 0 auto;
+    }
+    .partner-item strong{display:block; color:var(--dark); margin-bottom:3px}
+    .partner-item small{color:var(--muted); display:block}
+    .partner-item button{
+      margin-top:6px; border:0; background:#eef5ff; color:var(--blue);
+      padding:6px 10px; border-radius:999px; font-weight:700; cursor:pointer;
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    .contact{margin-top:34px}
+    .contact-card{
+      padding:28px; display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center;
+    }
+    .contact-card p{margin:0; color:var(--muted); font-size:1.05rem}
+    .contact-icons{display:flex; gap:12px}
+    .contact-icon{
+      width:56px; height:56px; border-radius:14px; background:#fff;
+      border:1px solid var(--border); box-shadow:var(--shadow);
+      display:grid; place-items:center; color:var(--blue); font-size:1.35rem;
     }
 
-    .map-card {
-      padding: 20px;
+    .legal{
+      margin-top:22px; display:grid; grid-template-columns:1fr 1fr; gap:18px;
     }
-    .partner-card {
-      padding: 22px;
-      position: sticky;
-      top: 108px;
+    details{
+      background:#fff; border:1px solid var(--border); border-radius:18px;
+      padding:18px 20px; box-shadow:var(--shadow);
     }
+    summary{cursor:pointer; font-weight:800; color:var(--dark)}
 
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
+    .footer{background:#314861; color:#fff; margin-top:28px}
+    .footer-inner{
+      min-height:132px; display:flex; flex-direction:column; justify-content:center;
+      align-items:center; gap:10px; text-align:center; font-size:1rem;
     }
-    .filter-btn {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--dark);
-      border-radius: 999px;
-      padding: 9px 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .filter-btn.active {
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      color: #fff;
-      border-color: transparent;
-    }
+    .footer a{color:#fff; font-weight:700}
+    .leaflet-popup-content{font-size:14px; line-height:1.35}
 
-    #map {
-      width: 100%;
-      height: 620px;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .partner-card h3 {
-      font-size: 1.15rem;
-      margin-bottom: 12px;
-    }
-    .partner-card input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      font-size: 1rem;
-      margin-bottom: 14px;
-    }
-    .partner-count {
-      color: var(--muted);
-      font-size: .96rem;
-      margin-bottom: 10px;
-    }
-    .partner-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 580px;
-      overflow: auto;
-      padding-right: 4px;
-    }
-    .partner-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 10px 0;
-      border-bottom: 1px solid #edf2f7;
-    }
-    .partner-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-top: 4px;
-      flex: 0 0 auto;
-    }
-    .partner-item strong {
-      display: block;
-      color: var(--dark);
-      margin-bottom: 3px;
-    }
-    .partner-item small {
-      color: var(--muted);
-      display: block;
-    }
-
-    .contact {
-      margin-top: 34px;
-    }
-    .contact-card {
-      padding: 28px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      align-items: center;
-    }
-    .contact-card h2 {
-      margin-bottom: 8px;
-    }
-    .contact-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-    .contact-icons {
-      display: flex;
-      gap: 12px;
-    }
-    .contact-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: #fff;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      display: grid;
-      place-items: center;
-      color: var(--blue);
-      font-size: 1.35rem;
-    }
-
-    .legal {
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-    details {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px 20px;
-      box-shadow: var(--shadow);
-    }
-    summary {
-      cursor: pointer;
-      font-weight: 800;
-      color: var(--dark);
-    }
-
-    .footer {
-      background: #314861;
-      color: #fff;
-      margin-top: 28px;
-    }
-    .footer-inner {
-      min-height: 132px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      text-align: center;
-      font-size: 1rem;
-    }
-    .footer a {
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .leaflet-popup-content {
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    @media (max-width: 1000px) {
-      .hero-grid, .content-grid, .legal, .contact-card {
-        grid-template-columns: 1fr;
-      }
-      .partner-card {
-        position: static;
-      }
-      #map {
-        height: 460px;
-      }
-      .nav-inner {
-        padding: 10px 0;
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      .nav-links {
-        gap: 16px;
-      }
-      .hero h1, .hero-sub {
-        max-width: none;
-      }
-      .hero-visual {
-        min-height: 220px;
-      }
+    @media (max-width:1000px){
+      .hero-grid,.content-grid,.legal,.contact-card,.stats{grid-template-columns:1fr}
+      .partner-card{position:static}
+      #map{height:460px}
+      .nav-inner{padding:10px 0; align-items:flex-start; flex-direction:column}
+      .nav-links{gap:16px}
+      .hero h1,.hero-sub{max-width:none}
+      .hero-visual{min-height:220px}
     }
   </style>
 </head>
@@ -398,6 +237,11 @@
         Initiativen, soziale Träger, Umweltgruppen, Jugendorte, Gewerkschaften und weitere
         Partner aktiv sind.
       </p>
+      <div class="stats">
+        <div class="stat"><strong>20+</strong><span>sichtbare Partner</span></div>
+        <div class="stat"><strong>10</strong><span>Kategorien</span></div>
+        <div class="stat"><strong>Emsland bis Küste</strong><span>regional vernetzt</span></div>
+      </div>
     </section>
 
     <section id="mapSection" class="content-grid">
@@ -547,13 +391,25 @@
       });
     }
 
+    function focusPartner(index) {
+      const item = partners[index];
+      map.setView([item.lat, item.lon], item.category === 'initiative' ? 10 : 9);
+      const marker = markers[item.category].find(m => {
+        const pos = m.getLatLng();
+        return Math.abs(pos.lat - item.lat) < 0.0001 && Math.abs(pos.lng - item.lon) < 0.0001;
+      });
+      if (marker) marker.openPopup();
+    }
+
     function renderPartners() {
       const q = document.getElementById('search').value.trim().toLowerCase();
-      const filtered = partners.filter(p => {
-        const okCat = active.has(p.category);
-        const hay = (p.name + ' ' + p.city + ' ' + p.note + ' ' + categories[p.category].label).toLowerCase();
-        return okCat && (!q || hay.includes(q));
-      });
+      const filtered = partners
+        .map((p, idx) => ({...p, idx}))
+        .filter(p => {
+          const okCat = active.has(p.category);
+          const hay = (p.name + ' ' + p.city + ' ' + p.note + ' ' + categories[p.category].label).toLowerCase();
+          return okCat && (!q || hay.includes(q));
+        });
 
       document.getElementById('partnerCount').textContent = filtered.length + ' Einträge sichtbar';
 
@@ -563,9 +419,14 @@
           <div>
             <strong>${p.name}</strong>
             <small>${p.city} · ${categories[p.category].label}</small>
+            <button type="button" data-idx="${p.idx}">Auf Karte zeigen</button>
           </div>
         </div>
       `).join('');
+
+      document.querySelectorAll('#partnerList button').forEach(btn => {
+        btn.addEventListener('click', () => focusPartner(Number(btn.dataset.idx)));
+      });
     }
 
     document.getElementById('search').addEventListener('input', renderPartners);
