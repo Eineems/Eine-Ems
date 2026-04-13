@@ -1,17 +1,4 @@
-from pathlib import Path
-import shutil
-
-# Locate uploaded logo image and copy it to a simple filename for GitHub Pages use
-candidates = [
-    Path("/mnt/data/ChatGPT Image 13. Apr. 2026, 20_12_28.png"),
-    Path("/mnt/data/67733114-0b9e-4ba1-b1e5-01e837ec6858.png"),
-]
-logo_src = next((p for p in candidates if p.exists()), None)
-logo_dst = Path("/mnt/data/logo.png")
-if logo_src:
-    shutil.copyfile(logo_src, logo_dst)
-
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
