@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html = r"""<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -6,326 +6,163 @@
   <title>Eine Ems – für alle</title>
   <meta name="description" content="Eine Ems – für alle. Netzwerk für Vielfalt, Zusammenhalt und ein gutes Miteinander entlang der Ems – vom Emsland bis zur Nordsee." />
   <style>
-    :root {
-      --blue: #1e5aa8;
-      --green: #4caf50;
-      --orange: #f57c00;
-      --dark: #16324f;
-      --light: #f7fbff;
-      --text: #1f2937;
-      --muted: #5f6b7a;
-      --card: #ffffff;
-      --border: #dbe7f3;
-      --shadow: 0 10px 30px rgba(22, 50, 79, 0.12);
-      --radius: 20px;
-      --max: 1120px;
+    :root{
+      --blue:#1e5aa8;
+      --green:#4caf50;
+      --orange:#f57c00;
+      --dark:#16324f;
+      --text:#1f2937;
+      --muted:#5f6b7a;
+      --bg:#f5faff;
+      --card:#ffffff;
+      --border:#dbe7f3;
+      --shadow:0 10px 30px rgba(22,50,79,.12);
+      --radius:22px;
+      --max:1180px;
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, #f7fbff 0%, #eef6fb 100%);
-      line-height: 1.55;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#f7fbff 0%,#eef6fb 100%);
+      line-height:1.55;
     }
-
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .container {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:min(calc(100% - 32px),var(--max));margin:0 auto}
+    .nav{
+      position:sticky;top:0;z-index:1000;
+      backdrop-filter:blur(10px);
+      background:rgba(247,251,255,.92);
+      border-bottom:1px solid rgba(30,90,168,.08)
     }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(247, 251, 255, 0.9);
-      border-bottom: 1px solid rgba(30, 90, 168, 0.08);
+    .nav-inner{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:72px
     }
-
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-height: 72px;
-      gap: 16px;
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--dark)}
+    .brand-mark{
+      width:42px;height:42px;border-radius:50%;
+      background:linear-gradient(135deg,var(--blue),var(--green));
+      display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:var(--shadow)
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      color: var(--dark);
+    .nav-links{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+    .nav-links a{font-size:.95rem;font-weight:700;color:var(--dark)}
+    .button{
+      display:inline-block;padding:12px 18px;border-radius:999px;
+      font-weight:700;border:2px solid transparent;transition:.2s ease
     }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      display: grid;
-      place-items: center;
-      color: white;
-      font-size: 20px;
-      box-shadow: var(--shadow);
+    .button-primary{background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;box-shadow:var(--shadow)}
+    .button-secondary{background:#fff;border-color:var(--border);color:var(--dark)}
+    .button:hover{transform:translateY(-1px);text-decoration:none}
+    .hero{padding:72px 0 50px}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}
+    .card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:var(--radius);box-shadow:var(--shadow)
     }
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: var(--dark);
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      border: 2px solid transparent;
-      transition: 0.2s ease;
-    }
-
-    .button-primary {
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .button-primary:hover {
-      transform: translateY(-1px);
-      text-decoration: none;
-    }
-
-    .button-secondary {
-      background: white;
-      border-color: var(--border);
-      color: var(--dark);
-    }
-
-    .hero {
-      padding: 72px 0 56px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 28px;
-      align-items: center;
-    }
-
-    .hero-card,
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card {
-      padding: 38px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 12px;
-      color: var(--blue);
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    h1, h2, h3 {
-      color: var(--dark);
-      line-height: 1.15;
-      margin: 0 0 14px;
-    }
-
-    h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
-    h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
-    h3 { font-size: 1.15rem; }
-
-    .lead {
-      font-size: 1.08rem;
-      color: var(--muted);
-      max-width: 62ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
-
-    .visual {
-      padding: 24px;
-      min-height: 360px;
-      position: relative;
-      overflow: hidden;
+    .hero-card{padding:38px}
+    .eyebrow{display:inline-block;margin-bottom:12px;color:var(--blue);font-weight:700}
+    h1,h2,h3{margin:0 0 14px;color:var(--dark);line-height:1.15}
+    h1{font-size:clamp(2.25rem,5vw,4rem)}
+    h2{font-size:clamp(1.55rem,3vw,2.4rem)}
+    h3{font-size:1.1rem}
+    .lead{font-size:1.08rem;color:var(--muted);max-width:62ch}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .visual{
+      position:relative;overflow:hidden;min-height:360px;padding:24px;
       background:
-        radial-gradient(circle at top right, rgba(76, 175, 80, 0.18), transparent 35%),
-        radial-gradient(circle at bottom left, rgba(245, 124, 0, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(76,175,80,.18), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(245,124,0,.16), transparent 30%),
         linear-gradient(180deg, #ffffff, #eef7ff);
     }
-
-    .river {
-      position: absolute;
-      inset: auto -5% 15% -5%;
-      height: 120px;
-      background: linear-gradient(90deg, rgba(30,90,168,0.95), rgba(76,175,80,0.9));
-      border-radius: 100px;
-      transform: rotate(-6deg);
-      opacity: 0.95;
+    .river{
+      position:absolute;left:-5%;right:-5%;bottom:15%;height:120px;
+      border-radius:100px;transform:rotate(-6deg);
+      background:linear-gradient(90deg,rgba(30,90,168,.95),rgba(76,175,80,.9))
+    }
+    .river::before,.river::after{
+      content:"";position:absolute;left:10%;right:10%;bottom:-28px;height:52px;
+      border-radius:100px;background:rgba(255,255,255,.3)
+    }
+    .badge{
+      position:absolute;background:#fff;border:1px solid var(--border);
+      border-radius:18px;padding:12px 14px;box-shadow:var(--shadow);
+      font-weight:700;color:var(--dark)
+    }
+    .badge small{display:block;color:var(--muted);font-weight:500;margin-top:4px}
+    .badge-1{top:24px;right:24px}
+    .badge-2{top:118px;left:18px}
+    .badge-3{bottom:28px;right:24px}
+    section{padding:28px 0}
+    .section-head{margin-bottom:18px}
+    .muted{color:var(--muted)}
+    .grid-2,.grid-3,.grid-4{display:grid;gap:18px}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .feature,.partner-card,.legal-card,.social-card{padding:22px}
+    .icon{
+      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+      color:#fff;font-size:22px;margin-bottom:14px;
+      background:linear-gradient(135deg,var(--blue),var(--green))
+    }
+    .chip-list{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{
+      padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--border);
+      color:var(--dark);font-weight:700;box-shadow:0 4px 14px rgba(22,50,79,.06)
     }
 
-    .river::before,
-    .river::after {
-      content: "";
-      position: absolute;
-      inset: auto 10% -28px 10%;
-      height: 52px;
-      border-radius: 100px;
-      background: rgba(255,255,255,0.3);
+    .map-wrap{overflow:hidden}
+    .map-toolbar{
+      display:flex;flex-wrap:wrap;gap:10px;padding:18px 18px 0 18px
     }
-
-    .badge,
-    .stat {
-      position: absolute;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 12px 14px;
-      box-shadow: var(--shadow);
-      font-weight: 700;
-      color: var(--dark);
+    .toggle{
+      border:1px solid var(--border);background:#fff;color:var(--dark);
+      padding:9px 12px;border-radius:999px;font-weight:700;cursor:pointer
     }
-
-    .badge small,
-    .stat small {
-      display: block;
-      font-weight: 500;
-      color: var(--muted);
-      margin-top: 4px;
+    .toggle.active{background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;border-color:transparent}
+    .map-box{position:relative;height:560px;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;margin-top:14px}
+    #map{height:100%;width:100%}
+    .partner-tools{
+      display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px
     }
-
-    .badge-1 { top: 24px; right: 24px; }
-    .badge-2 { top: 118px; left: 18px; }
-    .stat { bottom: 32px; right: 24px; }
-
-    section {
-      padding: 28px 0;
+    .search{
+      width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--border);font-size:1rem
     }
-
-    .section-head {
-      margin-bottom: 18px;
+    .partner-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .partner-card h3{margin-bottom:8px}
+    .partner-meta{font-size:.94rem;color:var(--muted);margin-bottom:8px}
+    .tag{
+      display:inline-block;font-size:.82rem;font-weight:700;border-radius:999px;
+      padding:6px 10px;background:#edf4fb;color:var(--blue);margin:4px 6px 0 0
     }
-
-    .grid-3,
-    .grid-4,
-    .grid-2 {
-      display: grid;
-      gap: 18px;
+    .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .social-placeholder{
+      min-height:240px;border:2px dashed var(--border);border-radius:18px;
+      display:grid;place-items:center;text-align:center;padding:24px;background:#fbfdff
     }
-
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-4 { grid-template-columns: repeat(4, 1fr); }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-
-    .card {
-      padding: 22px;
+    .cta{
+      padding:28px;background:linear-gradient(135deg,rgba(30,90,168,.96),rgba(76,175,80,.92));color:#fff
     }
-
-    .icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      color: white;
-      font-size: 22px;
-      margin-bottom: 14px;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-    }
-
-    .muted { color: var(--muted); }
-
-    .region-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: white;
-      border: 1px solid var(--border);
-      color: var(--dark);
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(22, 50, 79, 0.06);
-    }
-
-    .cta {
-      padding: 28px;
-      background: linear-gradient(135deg, rgba(30,90,168,0.96), rgba(76,175,80,0.92));
-      color: white;
-    }
-
-    .cta h2,
-    .cta p,
-    .cta a { color: white; }
-
-    .footer {
-      padding: 40px 0 56px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .mini-list {
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid,
-      .grid-3,
-      .grid-4,
-      .grid-2,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-inner {
-        padding: 10px 0;
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .hero { padding-top: 42px; }
-      .hero-card { padding: 26px; }
-      .visual { min-height: 300px; }
+    .cta h2,.cta p,.cta a{color:#fff}
+    details{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 18px}
+    details + details{margin-top:12px}
+    summary{cursor:pointer;font-weight:700;color:var(--dark)}
+    .footer{padding:42px 0 56px;color:var(--muted);font-size:.95rem}
+    .footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+    .mini-list{margin:0;padding-left:18px}
+    @media (max-width: 980px){
+      .hero-grid,.grid-2,.grid-3,.grid-4,.partner-list,.social-grid,.footer-grid{grid-template-columns:1fr}
+      .nav-inner{padding:10px 0;align-items:flex-start;flex-direction:column}
+      .hero{padding-top:42px}
+      .hero-card{padding:26px}
+      .visual{min-height:300px}
+      .map-box{height:430px}
     }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
   <nav class="nav">
@@ -336,8 +173,10 @@
       </div>
       <div class="nav-links">
         <a href="#idee">Idee</a>
-        <a href="#region">Region</a>
-        <a href="#mitmachen">Mitmachen</a>
+        <a href="#karte">Karte</a>
+        <a href="#partner">Netzwerkpartner</a>
+        <a href="#social">Social</a>
+        <a href="#rechtliches">Rechtliches</a>
         <a class="button button-secondary" href="mailto:eineems@web.de">eineems@web.de</a>
       </div>
     </div>
@@ -345,27 +184,20 @@
 
   <header class="hero">
     <div class="container hero-grid">
-      <div class="hero-card">
+      <div class="card hero-card">
         <div class="eyebrow">Netzwerk entlang der Ems</div>
         <h1>Eine Ems – für alle</h1>
-        <p class="lead">
-          Gemeinsam für Vielfalt, Zusammenhalt und ein gutes Miteinander –
-          vom Emsland bis zur Nordsee.
-        </p>
-        <p class="lead">
-          Wir wollen Menschen, Gruppen, Initiativen, Vereine und engagierte Einzelpersonen sichtbar machen,
-          miteinander verbinden und den Austausch stärken.
-        </p>
+        <p class="lead">Gemeinsam für Vielfalt, Zusammenhalt und ein gutes Miteinander – vom Emsland bis zur Nordsee.</p>
+        <p class="lead">Wir wollen Menschen, Gruppen, Initiativen, Vereine und engagierte Einzelpersonen sichtbar machen, miteinander verbinden und den Austausch stärken.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="mailto:eineems@web.de">Jetzt Kontakt aufnehmen</a>
-          <a class="button button-secondary" href="#mitmachen">Mehr erfahren</a>
+          <a class="button button-secondary" href="#partner">Netzwerkpartner ansehen</a>
         </div>
       </div>
-
-      <div class="hero-card visual" aria-hidden="true">
+      <div class="card hero-card visual" aria-hidden="true">
         <div class="badge badge-1">Offen für alle<small>Initiativen, Vereine, Gruppen, Einzelpersonen</small></div>
         <div class="badge badge-2">Region im Blick<small>Emsland · Ostfriesland · Nordsee</small></div>
-        <div class="stat">Gemeinsam sichtbar<small>vernetzen · austauschen · stärken</small></div>
+        <div class="badge badge-3">Gemeinsam sichtbar<small>vernetzen · austauschen · stärken</small></div>
         <div class="river"></div>
       </div>
     </div>
@@ -376,23 +208,20 @@
       <div class="container">
         <div class="section-head">
           <h2>Worum geht es?</h2>
-          <p class="muted">
-            Entlang der Ems engagieren sich viele Menschen. Oft passiert das noch nebeneinander statt miteinander.
-            „Eine Ems – für alle“ will genau hier ansetzen.
-          </p>
+          <p class="muted">Entlang der Ems engagieren sich viele Menschen. Oft passiert das noch nebeneinander statt miteinander. „Eine Ems – für alle“ will genau hier ansetzen.</p>
         </div>
         <div class="grid-3">
-          <article class="card">
+          <article class="card feature">
             <div class="icon">🤝</div>
             <h3>Verbinden</h3>
             <p class="muted">Menschen und Gruppen zusammenbringen, die in der Region etwas bewegen wollen.</p>
           </article>
-          <article class="card">
+          <article class="card feature">
             <div class="icon">💬</div>
             <h3>Austausch stärken</h3>
             <p class="muted">Ideen, Termine, Aktionen und Erfahrungen leichter teilen und sichtbar machen.</p>
           </article>
-          <article class="card">
+          <article class="card feature">
             <div class="icon">🌍</div>
             <h3>Vielfalt sichtbar machen</h3>
             <p class="muted">Zeigen, dass entlang der Ems viele Menschen für Zusammenhalt und Offenheit stehen.</p>
@@ -401,17 +230,14 @@
       </div>
     </section>
 
-    <section id="region">
+    <section>
       <div class="container">
         <div class="section-head">
-          <h2>Unsere Region</h2>
-          <p class="muted">
-            Der Blick geht bewusst weit: entlang der Ems und in den größeren Raum hinein – vom südlichen Emsland bis zur Küste.
-          </p>
+          <h2>Region im Überblick</h2>
+          <p class="muted">Der Blick geht bewusst weit: entlang der Ems und in den größeren Raum hinein.</p>
         </div>
-        <div class="card">
-          <h3>Beispielhafte Orte und Knotenpunkte</h3>
-          <div class="region-list">
+        <div class="card feature">
+          <div class="chip-list">
             <span class="chip">Lingen</span>
             <span class="chip">Meppen</span>
             <span class="chip">Papenburg</span>
@@ -429,19 +255,121 @@
       </div>
     </section>
 
-    <section id="mitmachen">
+    <section id="karte">
       <div class="container">
-        <div class="cta card">
+        <div class="section-head">
+          <h2>Interaktive Karte</h2>
+          <p class="muted">Filtere Kategorien direkt auf der Karte. Einträge ohne genaue Adresse sind auf den jeweiligen Ort gesetzt.</p>
+        </div>
+        <div class="card map-wrap">
+          <div class="map-toolbar" id="mapToolbar"></div>
+          <div class="map-box"><div id="map"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partner">
+      <div class="container">
+        <div class="section-head">
+          <h2>Netzwerkpartner</h2>
+          <p class="muted">Die Liste wird automatisch aus den hinterlegten Daten erzeugt und kann leicht erweitert werden.</p>
+        </div>
+        <div class="card feature">
+          <div class="partner-tools">
+            <input id="partnerSearch" class="search" type="text" placeholder="Partner suchen, z. B. Meppen, Umwelt, Jugend ..." />
+          </div>
+          <div id="partnerCount" class="muted" style="margin-bottom:14px;"></div>
+          <div id="partnerList" class="partner-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="social">
+      <div class="container">
+        <div class="section-head">
+          <h2>Instagram / Social Feed</h2>
+          <p class="muted">Hier kannst du später euer Profil oder aktuelle Beiträge einbinden.</p>
+        </div>
+        <div class="social-grid">
+          <div class="card social-card">
+            <h3>Instagram</h3>
+            <p class="muted">Trage hier später euer Profil ein.</p>
+            <div class="social-placeholder">
+              <div>
+                <strong>@eineems</strong><br><br>
+                Platzhalter für Profil-Link oder eingebetteten Feed.<br>
+                Beispiel: Link zum Instagram-Profil, Linktree oder aktuelle Aktionen.
+              </div>
+            </div>
+          </div>
+          <div class="card social-card">
+            <h3>Aktuelles</h3>
+            <p class="muted">Ein einfacher Bereich für Hinweise, Termine oder neue Partner.</p>
+            <div class="social-placeholder">
+              <div>
+                <strong>Noch offen</strong><br><br>
+                Hier können später Posts, Termine, Mitmach-Aufrufe oder Veranstaltungen erscheinen.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="card cta">
           <h2>Mach mit</h2>
-          <p>
-            Du möchtest dich vernetzen, austauschen oder einfach Kontakt aufnehmen?
-            Dann schreib uns.
-          </p>
-          <p>
-            <strong>E-Mail:</strong> <a href="mailto:eineems@web.de">eineems@web.de</a>
-          </p>
+          <p>Du möchtest dich vernetzen, austauschen oder einfach Kontakt aufnehmen? Dann schreib uns.</p>
+          <p><strong>E-Mail:</strong> <a href="mailto:eineems@web.de">eineems@web.de</a></p>
           <div class="hero-actions">
             <a class="button button-secondary" href="mailto:eineems@web.de">E-Mail schreiben</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rechtliches">
+      <div class="container">
+        <div class="section-head">
+          <h2>Impressum & Datenschutz</h2>
+          <p class="muted">Die Bereiche sind vorbereitet. Für die Veröffentlichung musst du die Platzhalter mit deinen echten Angaben ersetzen.</p>
+        </div>
+        <div class="grid-2">
+          <div class="legal-card card">
+            <details open>
+              <summary>Impressum</summary>
+              <p><strong>Angaben gemäß § 5 TMG / künftig ggf. nach deinem konkreten Veröffentlichungsmodell anpassen</strong></p>
+              <p>
+                Eine Ems – für alle<br>
+                [Vor- und Nachname / verantwortliche Person oder Organisation]<br>
+                [Straße und Hausnummer]<br>
+                [PLZ Ort]<br>
+                Deutschland
+              </p>
+              <p>
+                E-Mail: <a href="mailto:eineems@web.de">eineems@web.de</a><br>
+                Telefon: [optional]
+              </p>
+              <p>
+                Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:<br>
+                [Name]<br>
+                [Anschrift]
+              </p>
+            </details>
+          </div>
+          <div class="legal-card card">
+            <details open>
+              <summary>Datenschutz</summary>
+              <p>Diese Website verarbeitet im aktuellen Stand selbst keine Formulardaten. Bei einer Kontaktaufnahme per E-Mail werden die übermittelten Daten ausschließlich zur Bearbeitung der Anfrage verwendet.</p>
+              <p>Beim Besuch dieser Website können technisch notwendige Daten durch den Hosting-Anbieter verarbeitet werden. Wenn externe Dienste eingebunden werden, zum Beispiel Karten, Social-Media-Inhalte oder Schriftarten, solltest du diese Datenschutzhinweise entsprechend ergänzen.</p>
+              <p>
+                Verantwortliche Stelle:<br>
+                [Vor- und Nachname / Organisation]<br>
+                [Anschrift]<br>
+                E-Mail: <a href="mailto:eineems@web.de">eineems@web.de</a>
+              </p>
+            </details>
           </div>
         </div>
       </div>
@@ -452,19 +380,188 @@
     <div class="container footer-grid">
       <div>
         <strong>Eine Ems – für alle</strong>
-        <p>
-          Gemeinsam stärker. Gemeinsam sichtbar.
-        </p>
+        <p>Gemeinsam stärker. Gemeinsam sichtbar.</p>
       </div>
       <div>
         <strong>Hinweis</strong>
         <ul class="mini-list">
-          <li>Diese Seite ist als einfacher Startpunkt für GitHub Pages gedacht.</li>
-          <li>Texte, Farben und Bereiche lassen sich leicht erweitern.</li>
-          <li>Kontakt aktuell über E-Mail.</li>
+          <li>Seite für GitHub Pages vorbereitet.</li>
+          <li>Karte und Partnerbereich basieren auf eingebetteten Daten.</li>
+          <li>Impressum und Datenschutz vor Veröffentlichung vervollständigen.</li>
         </ul>
       </div>
     </div>
   </footer>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const categories = {
+      initiative: { label: "Initiativen", color: "#d94841" },
+      beratung: { label: "Beratung", color: "#6f42c1" },
+      sozial: { label: "Sozial", color: "#2b8a3e" },
+      umwelt: { label: "Umwelt", color: "#2f9e44" },
+      kultur: { label: "Kultur", color: "#f08c00" },
+      jugend: { label: "Jugend", color: "#1971c2" },
+      gewerkschaft: { label: "Gewerkschaften", color: "#495057" },
+      bildung: { label: "Bildung", color: "#0b7285" },
+      kirche: { label: "Kirchen/Religion", color: "#5f3dc4" },
+      sport: { label: "Sport", color: "#c2255c" }
+    };
+
+    const partners = [
+      {name:"Lingen ist bunt", city:"Lingen", lat:52.5232, lon:7.3173, category:"initiative", note:"Bündnis / regionaler Kernpunkt"},
+      {name:"Caritas Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"sozial", note:"Sozialer Träger, regional"},
+      {name:"Jugendzentrum Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"jugend", note:"Stadtmarker, genaue Adresse ergänzbar"},
+      {name:"Ev. Kirche Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"kirche", note:"Ortsmarker, genaue Gemeinde ergänzbar"},
+      {name:"BUND Regionalgruppe Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"umwelt", note:"Regionalgruppe / Ortsmarker"},
+      {name:"Sportverein Blau-Weiß Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"sport", note:"Verein / Ortsmarker"},
+      {name:"Festival Lingen Open Air", city:"Lingen", lat:52.5232, lon:7.3173, category:"kultur", note:"Kultur / Eventmarker"},
+
+      {name:"Meppen gegen Rechts", city:"Meppen", lat:52.6906, lon:7.2909, category:"initiative", note:"Bündnis / regionaler Kernpunkt"},
+      {name:"Diakonie Emsland", city:"Meppen", lat:52.6950, lon:7.2900, category:"sozial", note:"Sozialer Träger, regional"},
+      {name:"Jugendzentrum Meppen", city:"Meppen", lat:52.6950, lon:7.2900, category:"jugend", note:"Stadtmarker, genaue Adresse ergänzbar"},
+      {name:"Fanprojekt SV Meppen", city:"Meppen", lat:52.6950, lon:7.2900, category:"sport", note:"Sport / Jugendarbeit"},
+
+      {name:"Papenburg bleibt bunt", city:"Papenburg", lat:53.0770, lon:7.3950, category:"initiative", note:"Bündnis / Stadtmarker"},
+      {name:"DRK Emsland", city:"Papenburg", lat:53.0770, lon:7.3950, category:"sozial", note:"Kreisverband / Stadtmarker"},
+      {name:"Kath. Kirche Papenburg", city:"Papenburg", lat:53.0770, lon:7.3950, category:"kirche", note:"Ortsmarker"},
+      {name:"Klimagruppe Papenburg", city:"Papenburg", lat:53.0770, lon:7.3950, category:"umwelt", note:"Lokal / Ortsmarker"},
+
+      {name:"Omas gegen Rechts Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"initiative", note:"E-Mail: omasgegenrechts.leer@outlook.com"},
+      {name:"NABU Ostfriesland", city:"Leer", lat:53.2307, lon:7.4612, category:"umwelt", note:"Regional / Ortsmarker"},
+      {name:"Jugendzentrum Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"jugend", note:"Stadtmarker, genaue Adresse ergänzbar"},
+      {name:"Moscheeverein Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"kirche", note:"Religionsgemeinschaft / Ortsmarker"},
+      {name:"Kulturverein Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"kultur", note:"Kultur / Ortsmarker"},
+
+      {name:"Emden demokratisch", city:"Emden", lat:53.3671, lon:7.2078, category:"initiative", note:"Bündnis / Stadtmarker"},
+      {name:"Bündnis für Demokratie Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"initiative", note:"Stadtmarker"},
+      {name:"Hochschule Emden/Leer", city:"Emden", lat:53.3671, lon:7.2078, category:"bildung", note:"Hochschule / regional"},
+      {name:"IG Metall Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"gewerkschaft", note:"Gewerkschaft / regional"},
+      {name:"Fridays for Future Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"umwelt", note:"Initiative / Ortsmarker"},
+
+      {name:"Aurich Bündnis gegen Rechts", city:"Aurich", lat:53.4697, lon:7.4829, category:"initiative", note:"Bündnis / Stadtmarker"},
+      {name:"Sozialzentrum Aurich", city:"Aurich", lat:53.4697, lon:7.4829, category:"sozial", note:"Ortsmarker"},
+      {name:"Alte Schlachthof Jugendzentrum", city:"Aurich", lat:53.4697, lon:7.4829, category:"kultur", note:"Kultur / Jugend / Ortsmarker"},
+
+      {name:"Wilhelmshaven für Demokratie", city:"Wilhelmshaven", lat:53.5299, lon:8.1125, category:"initiative", note:"Küste / Stadtmarker"},
+      {name:"Nordhorn gegen Rechts", city:"Nordhorn", lat:52.4308, lon:7.0678, category:"initiative", note:"Grafschaft Bentheim / Stadtmarker"},
+      {name:"Rheine bleibt bunt", city:"Rheine", lat:52.2851, lon:7.4406, category:"initiative", note:"Region / Stadtmarker"},
+      {name:"Kulturzentrum Lagerhalle", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"kultur", note:"Kultur / bekannter Anlaufpunkt"},
+      {name:"Osnabrück gegen Rechts", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"initiative", note:"Region / Stadtmarker"},
+
+      {name:"Oldenburg für Demokratie", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Regional / Stadtmarker"},
+      {name:"Universität Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"bildung", note:"Hochschule"},
+      {name:"Greenpeace Gruppe Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Regionalgruppe"},
+      {name:"AWO Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"sozial", note:"Regionalverband"},
+      {name:"ver.di Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"gewerkschaft", note:"Bezirk Weser-Ems"},
+      {name:"Fridays for Future Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Initiative"},
+      {name:"Netzwerk Vielfalt Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Ortsmarker"},
+
+      {name:"Bremen gegen Rechts", city:"Bremen", lat:53.0793, lon:8.8017, category:"initiative", note:"Überregionaler Hub / Stadtmarker"},
+
+      {name:"Mobile Beratung Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"beratung", note:"Telefon: 0157 32883589 / landesweit"},
+      {name:"Rote Linie Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"beratung", note:"Ausstieg / Beratung landesweit"},
+      {name:"Flüchtlingsrat Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"sozial", note:"Landesweit"},
+      {name:"DGB Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"gewerkschaft", note:"Landesweit"},
+      {name:"Omas gegen Rechts", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit / Regionalgruppen"},
+      {name:"Aufstehen gegen Rassismus", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit; Emsland-Bezug durch älteren Beitrag zu Meppen und Papenburg"},
+      {name:"Greenpeace Deutschland", city:"Deutschland", lat:51.1657, lon:10.4515, category:"umwelt", note:"Bundesweit"},
+      {name:"BUND Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"umwelt", note:"Landesverband"},
+      {name:"NABU Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"umwelt", note:"Landesverband"},
+
+      {name:"Eltern gegen Rechts (lokal)", city:"Emsland", lat:52.8170, lon:7.4000, category:"initiative", note:"Platzhalter für lokale Gruppen / kein exakter Ort"},
+      {name:"Bandkollektiv Emsland", city:"Emsland", lat:52.8170, lon:7.4000, category:"kultur", note:"Kultur / Szene / Platzhalter"},
+      {name:"Jugendring Emsland", city:"Emsland", lat:52.8170, lon:7.4000, category:"jugend", note:"Regional / Ortsmarker"}
+    ];
+
+    const map = L.map("map").setView([52.95, 7.55], 8);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
+
+    const markerStore = {};
+    const activeCategories = new Set(Object.keys(categories));
+
+    function iconFor(category){
+      const color = categories[category]?.color || "#1c7ed6";
+      return L.divIcon({
+        className: "custom-div-icon",
+        html: '<div style="background:'+color+';width:14px;height:14px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px rgba(0,0,0,.25);"></div>',
+        iconSize:[18,18],
+        iconAnchor:[9,9],
+        popupAnchor:[0,-10]
+      });
+    }
+
+    function popupHtml(item){
+      return `<b>${item.name}</b><br>${item.city}<br>${item.note}<br><span style="color:#5f6b7a">${categories[item.category]?.label || item.category}</span>`;
+    }
+
+    Object.keys(categories).forEach(cat => markerStore[cat] = []);
+
+    partners.forEach(item => {
+      const marker = L.marker([item.lat, item.lon], { icon: iconFor(item.category) }).bindPopup(popupHtml(item));
+      marker.addTo(map);
+      markerStore[item.category].push(marker);
+    });
+
+    function renderToolbar(){
+      const wrap = document.getElementById("mapToolbar");
+      wrap.innerHTML = "";
+      Object.entries(categories).forEach(([key, value]) => {
+        const btn = document.createElement("button");
+        btn.className = "toggle active";
+        btn.textContent = value.label;
+        btn.style.setProperty("--c", value.color);
+        btn.onclick = () => {
+          if(activeCategories.has(key)){
+            activeCategories.delete(key);
+            btn.classList.remove("active");
+            markerStore[key].forEach(m => map.removeLayer(m));
+          } else {
+            activeCategories.add(key);
+            btn.classList.add("active");
+            markerStore[key].forEach(m => m.addTo(map));
+          }
+          renderPartnerList();
+        };
+        wrap.appendChild(btn);
+      });
+    }
+
+    function partnerCard(item){
+      return `
+        <article class="partner-card card">
+          <h3>${item.name}</h3>
+          <div class="partner-meta">${item.city}</div>
+          <div>${item.note}</div>
+          <div class="tag">${categories[item.category]?.label || item.category}</div>
+        </article>
+      `;
+    }
+
+    function renderPartnerList(){
+      const q = document.getElementById("partnerSearch").value.trim().toLowerCase();
+      const filtered = partners.filter(item => {
+        const matchesCategory = activeCategories.has(item.category);
+        const hay = `${item.name} ${item.city} ${item.note} ${categories[item.category]?.label || ""}`.toLowerCase();
+        return matchesCategory && (!q || hay.includes(q));
+      });
+      document.getElementById("partnerCount").textContent = `${filtered.length} Einträge sichtbar`;
+      document.getElementById("partnerList").innerHTML = filtered.map(partnerCard).join("");
+    }
+
+    document.getElementById("partnerSearch").addEventListener("input", renderPartnerList);
+
+    renderToolbar();
+    renderPartnerList();
+  </script>
 </body>
 </html>
+"""
+
+path = "/mnt/data/eine_ems_homepage_pro.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(path)
