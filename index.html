@@ -1,19 +1,17 @@
-import base64
 from pathlib import Path
+import shutil
 
-# Use the uploaded chosen logo if available
+# Locate uploaded logo image and copy it to a simple filename for GitHub Pages use
 candidates = [
     Path("/mnt/data/ChatGPT Image 13. Apr. 2026, 20_12_28.png"),
     Path("/mnt/data/67733114-0b9e-4ba1-b1e5-01e837ec6858.png"),
 ]
-logo_path = next((p for p in candidates if p.exists()), None)
+logo_src = next((p for p in candidates if p.exists()), None)
+logo_dst = Path("/mnt/data/logo.png")
+if logo_src:
+    shutil.copyfile(logo_src, logo_dst)
 
-logo_data_uri = ""
-if logo_path:
-    with open(logo_path, "rb") as f:
-        logo_data_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-
-html = f"""<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -22,368 +20,366 @@ html = f"""<!DOCTYPE html>
   <meta name="description" content="Netzwerk für Solidarität, Vielfalt und Zusammenhalt entlang der Ems." />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <style>
-    :root {{
-      --blue:#1e5aa8;
-      --blue2:#4a9be8;
-      --green:#73be28;
-      --orange:#f28a19;
-      --dark:#18325c;
-      --text:#24364d;
-      --muted:#5f6f86;
-      --bg:#f4f6fa;
-      --card:#ffffff;
-      --border:#dfe7f2;
-      --shadow:0 14px 32px rgba(24,50,92,.12);
-      --radius:22px;
-      --max:1240px;
-    }}
-    * {{ box-sizing:border-box; }}
-    html {{ scroll-behavior:smooth; }}
-    body {{
-      margin:0;
+    :root {
+      --blue: #1e5aa8;
+      --blue2: #63aceb;
+      --green: #73be28;
+      --orange: #f28a19;
+      --dark: #18325c;
+      --text: #24364d;
+      --muted: #5f6f86;
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --border: #dfe7f2;
+      --shadow: 0 14px 32px rgba(24,50,92,.12);
+      --radius: 22px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      color:var(--text);
-      background:var(--bg);
-      line-height:1.5;
-    }}
-    a {{ color:var(--blue); text-decoration:none; }}
-    a:hover {{ text-decoration:underline; }}
-    .container {{ width:min(calc(100% - 32px), var(--max)); margin:0 auto; }}
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
 
-    .nav {{
-      background:#fff;
-      border-bottom:1px solid rgba(30,90,168,.08);
-      position:sticky;
-      top:0;
-      z-index:1000;
-    }}
-    .nav-inner {{
-      min-height:92px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:24px;
-    }}
-    .brand img {{
-      height:76px;
-      width:auto;
-      display:block;
-    }}
-    .nav-links {{
-      display:flex;
-      gap:28px;
-      align-items:center;
-      flex-wrap:wrap;
-      font-weight:700;
-    }}
-    .nav-links a {{
-      color:var(--blue);
-      font-size:1rem;
-    }}
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
 
-    .hero {{
-      position:relative;
-      overflow:hidden;
+    .nav {
+      background: #fff;
+      border-bottom: 1px solid rgba(30,90,168,.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-inner {
+      min-height: 92px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand img {
+      height: 76px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-weight: 700;
+    }
+    .nav-links a {
+      color: var(--blue);
+      font-size: 1rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
       background:
         radial-gradient(circle at top right, rgba(255,255,255,.16), transparent 30%),
         linear-gradient(100deg, #1f56b9 0%, #2c71d8 52%, #63aceb 100%);
-      color:#fff;
-      padding:46px 0 82px;
-    }}
-    .hero::after {{
-      content:"";
-      position:absolute;
-      left:-8%;
-      right:-8%;
-      bottom:-95px;
-      height:190px;
-      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.24));
-      border-radius:50% 50% 0 0 / 100% 100% 0 0;
-      transform:rotate(-2deg);
-      opacity:.95;
-    }}
-    .hero-grid {{
-      position:relative;
-      z-index:2;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:28px;
-      align-items:center;
-    }}
-    h1,h2,h3 {{
-      margin:0 0 14px;
-      line-height:1.12;
-      color:var(--dark);
-    }}
-    .hero h1 {{
-      color:#fff;
-      font-size:clamp(2.9rem, 5vw, 5.3rem);
-      font-weight:900;
-      letter-spacing:.01em;
-      text-transform:uppercase;
-      max-width:8ch;
-    }}
-    .hero-sub {{
-      color:#fff;
-      font-size:clamp(1.3rem, 2.4vw, 2.3rem);
-      font-weight:800;
-      max-width:12ch;
-      margin-bottom:28px;
-    }}
-    .hero .button {{
-      display:inline-block;
-      background:#fff;
-      color:var(--orange);
-      border-radius:999px;
-      padding:16px 34px;
-      font-weight:800;
-      box-shadow:var(--shadow);
-    }}
-    .hero-visual {{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:320px;
-    }}
-    .hero-visual img {{
-      width:min(100%, 460px);
-      height:auto;
-      display:block;
+      color: #fff;
+      padding: 46px 0 82px;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      bottom: -95px;
+      height: 190px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.24));
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      transform: rotate(-2deg);
+      opacity: .95;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    h1, h2, h3 {
+      margin: 0 0 14px;
+      line-height: 1.12;
+      color: var(--dark);
+    }
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(2.9rem, 5vw, 5.3rem);
+      font-weight: 900;
+      letter-spacing: .01em;
+      text-transform: uppercase;
+      max-width: 8ch;
+    }
+    .hero-sub {
+      color: #fff;
+      font-size: clamp(1.3rem, 2.4vw, 2.3rem);
+      font-weight: 800;
+      max-width: 12ch;
+      margin-bottom: 28px;
+    }
+    .button {
+      display: inline-block;
+      background: #fff;
+      color: var(--orange);
+      border-radius: 999px;
+      padding: 16px 34px;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 320px;
+    }
+    .hero-visual img {
+      width: min(100%, 460px);
+      height: auto;
+      display: block;
       filter: drop-shadow(0 16px 28px rgba(0,0,0,.14));
-    }}
+    }
 
-    main {{
-      padding:44px 0 56px;
-    }}
+    main {
+      padding: 44px 0 56px;
+    }
 
-    .section-title {{
-      font-size:clamp(1.8rem, 2.6vw, 2.7rem);
-      color:var(--dark);
-      margin-bottom:12px;
-    }}
-    .section-text {{
-      color:var(--muted);
-      font-size:1.08rem;
-      max-width:72ch;
-      margin:0 0 20px;
-    }}
+    .section-title {
+      font-size: clamp(1.8rem, 2.6vw, 2.7rem);
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+    .section-text {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 72ch;
+      margin: 0 0 20px;
+    }
 
-    .content-grid {{
-      display:grid;
-      grid-template-columns:1.8fr .95fr;
-      gap:22px;
-      align-items:start;
-    }}
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.8fr .95fr;
+      gap: 22px;
+      align-items: start;
+    }
 
-    .card {{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }}
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
-    .map-card {{
-      padding:20px;
-    }}
-    .partner-card {{
-      padding:22px;
-      position:sticky;
-      top:108px;
-    }}
+    .map-card {
+      padding: 20px;
+    }
+    .partner-card {
+      padding: 22px;
+      position: sticky;
+      top: 108px;
+    }
 
-    .filters {{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:14px;
-    }}
-    .filter-btn {{
-      border:1px solid var(--border);
-      background:#fff;
-      color:var(--dark);
-      border-radius:999px;
-      padding:9px 13px;
-      font-weight:700;
-      cursor:pointer;
-    }}
-    .filter-btn.active {{
-      background:linear-gradient(135deg, var(--blue), var(--green));
-      color:#fff;
-      border-color:transparent;
-    }}
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--dark);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: #fff;
+      border-color: transparent;
+    }
 
-    #map {{
-      width:100%;
-      height:620px;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid var(--border);
-    }}
+    #map {
+      width: 100%;
+      height: 620px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
 
-    .partner-card h3 {{
-      font-size:1.15rem;
-      margin-bottom:12px;
-    }}
-    .partner-card input {{
-      width:100%;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      font-size:1rem;
-      margin-bottom:14px;
-    }}
-    .partner-count {{
-      color:var(--muted);
-      font-size:.96rem;
-      margin-bottom:10px;
-    }}
-    .partner-list {{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      max-height:580px;
-      overflow:auto;
-      padding-right:4px;
-    }}
-    .partner-item {{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      padding:10px 0;
-      border-bottom:1px solid #edf2f7;
-    }}
-    .partner-dot {{
-      width:12px;
-      height:12px;
-      border-radius:50%;
-      margin-top:4px;
-      flex:0 0 auto;
-    }}
-    .partner-item strong {{
-      display:block;
-      color:var(--dark);
-      margin-bottom:3px;
-    }}
-    .partner-item small {{
-      color:var(--muted);
-      display:block;
-    }}
+    .partner-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+    .partner-card input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      margin-bottom: 14px;
+    }
+    .partner-count {
+      color: var(--muted);
+      font-size: .96rem;
+      margin-bottom: 10px;
+    }
+    .partner-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 580px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+    .partner-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid #edf2f7;
+    }
+    .partner-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex: 0 0 auto;
+    }
+    .partner-item strong {
+      display: block;
+      color: var(--dark);
+      margin-bottom: 3px;
+    }
+    .partner-item small {
+      color: var(--muted);
+      display: block;
+    }
 
-    .contact {{
-      margin-top:34px;
-    }}
-    .contact-card {{
-      padding:28px;
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:18px;
-      align-items:center;
-    }}
-    .contact-card h2 {{
-      margin-bottom:10px;
-    }}
-    .contact-card p {{
-      margin:0;
-      color:var(--muted);
-      font-size:1.05rem;
-    }}
-    .contact-icons {{
-      display:flex;
-      gap:12px;
-    }}
-    .contact-icon {{
-      width:56px;
-      height:56px;
-      border-radius:14px;
-      background:#fff;
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      display:grid;
-      place-items:center;
-      color:var(--blue);
-      font-size:1.35rem;
-    }}
+    .contact {
+      margin-top: 34px;
+    }
+    .contact-card {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+    .contact-card h2 {
+      margin-bottom: 8px;
+    }
+    .contact-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .contact-icons {
+      display: flex;
+      gap: 12px;
+    }
+    .contact-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 1.35rem;
+    }
 
-    .legal {{
-      margin-top:22px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }}
-    details {{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:18px 20px;
-      box-shadow:var(--shadow);
-    }}
-    summary {{
-      cursor:pointer;
-      font-weight:800;
-      color:var(--dark);
-    }}
+    .legal {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    details {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--dark);
+    }
 
-    .footer {{
-      background:#314861;
-      color:#fff;
-      margin-top:28px;
-    }}
-    .footer-inner {{
-      min-height:132px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      gap:10px;
-      text-align:center;
-      font-size:1rem;
-    }}
-    .footer a {{
-      color:#fff;
-      font-weight:700;
-    }}
+    .footer {
+      background: #314861;
+      color: #fff;
+      margin-top: 28px;
+    }
+    .footer-inner {
+      min-height: 132px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+      font-size: 1rem;
+    }
+    .footer a {
+      color: #fff;
+      font-weight: 700;
+    }
 
-    .leaflet-popup-content {{
-      font-size:14px;
-      line-height:1.35;
-    }}
+    .leaflet-popup-content {
+      font-size: 14px;
+      line-height: 1.35;
+    }
 
-    @media (max-width: 1000px) {{
-      .hero-grid,
-      .content-grid,
-      .legal,
-      .contact-card {{
-        grid-template-columns:1fr;
-      }}
-      .partner-card {{
-        position:static;
-      }}
-      #map {{
-        height:460px;
-      }}
-      .nav-inner {{
-        padding:10px 0;
-        align-items:flex-start;
-        flex-direction:column;
-      }}
-      .nav-links {{
-        gap:16px;
-      }}
-      .hero h1,
-      .hero-sub {{
-        max-width:none;
-      }}
-      .hero-visual {{
-        min-height:220px;
-      }}
-    }}
+    @media (max-width: 1000px) {
+      .hero-grid, .content-grid, .legal, .contact-card {
+        grid-template-columns: 1fr;
+      }
+      .partner-card {
+        position: static;
+      }
+      #map {
+        height: 460px;
+      }
+      .nav-inner {
+        padding: 10px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .nav-links {
+        gap: 16px;
+      }
+      .hero h1, .hero-sub {
+        max-width: none;
+      }
+      .hero-visual {
+        min-height: 220px;
+      }
+    }
   </style>
 </head>
 <body>
   <nav class="nav">
     <div class="container nav-inner">
       <div class="brand">
-        <img src="{logo_data_uri}" alt="Eine Ems – für alle Logo">
+        <img src="logo.png" alt="Eine Ems – für alle Logo">
       </div>
       <div class="nav-links">
         <a href="#about">Über uns</a>
@@ -402,7 +398,7 @@ html = f"""<!DOCTYPE html>
         <a class="button" href="#about">Mehr erfahren</a>
       </div>
       <div class="hero-visual">
-        <img src="{logo_data_uri}" alt="">
+        <img src="logo.png" alt="Eine Ems – für alle">
       </div>
     </div>
   </header>
@@ -474,116 +470,116 @@ html = f"""<!DOCTYPE html>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const categories = {{
-      initiative: {{ label: "Initiativen", color: "#ef6c3f" }},
-      sozial: {{ label: "Sozial", color: "#5eb246" }},
-      umwelt: {{ label: "Umwelt", color: "#1f7ad5" }},
-      jugend: {{ label: "Jugend", color: "#5aa6ff" }},
-      gewerkschaft: {{ label: "Gewerkschaften", color: "#1e4eaa" }},
-      kultur: {{ label: "Kultur", color: "#f0a01d" }},
-      bildung: {{ label: "Bildung", color: "#356aa0" }},
-      kirche: {{ label: "Kirchen/Religion", color: "#7b58c7" }},
-      sport: {{ label: "Sport", color: "#d64d7a" }},
-      beratung: {{ label: "Beratung", color: "#6473d8" }}
-    }};
+    const categories = {
+      initiative: { label: "Initiativen", color: "#ef6c3f" },
+      sozial: { label: "Sozial", color: "#5eb246" },
+      umwelt: { label: "Umwelt", color: "#1f7ad5" },
+      jugend: { label: "Jugend", color: "#5aa6ff" },
+      gewerkschaft: { label: "Gewerkschaften", color: "#1e4eaa" },
+      kultur: { label: "Kultur", color: "#f0a01d" },
+      bildung: { label: "Bildung", color: "#356aa0" },
+      kirche: { label: "Kirchen/Religion", color: "#7b58c7" },
+      sport: { label: "Sport", color: "#d64d7a" },
+      beratung: { label: "Beratung", color: "#6473d8" }
+    };
 
     const partners = [
-      {{name:"Lingen ist bunt", city:"Lingen", lat:52.5232, lon:7.3173, category:"initiative", note:"Bündnis / regionaler Kernpunkt"}},
-      {{name:"Caritas Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"sozial", note:"Sozialer Träger"}},
-      {{name:"Jugendzentrum Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"jugend", note:"Jugendort"}},
-      {{name:"BUND Regionalgruppe Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"umwelt", note:"Regionalgruppe"}},
-      {{name:"Meppen gegen Rechts", city:"Meppen", lat:52.6906, lon:7.2909, category:"initiative", note:"Bündnis"}},
-      {{name:"Diakonie Emsland", city:"Meppen", lat:52.6950, lon:7.2900, category:"sozial", note:"Sozialer Träger"}},
-      {{name:"Jugendzentrum Meppen", city:"Meppen", lat:52.6950, lon:7.2900, category:"jugend", note:"Jugendort"}},
-      {{name:"Papenburg bleibt bunt", city:"Papenburg", lat:53.0770, lon:7.3950, category:"initiative", note:"Bündnis"}},
-      {{name:"Omas gegen Rechts Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"initiative", note:"Kontakt vorhanden"}},
-      {{name:"NABU Ostfriesland", city:"Leer", lat:53.2307, lon:7.4612, category:"umwelt", note:"Regional"}},
-      {{name:"Emden demokratisch", city:"Emden", lat:53.3671, lon:7.2078, category:"initiative", note:"Bündnis"}},
-      {{name:"Hochschule Emden/Leer", city:"Emden", lat:53.3671, lon:7.2078, category:"bildung", note:"Hochschule"}},
-      {{name:"IG Metall Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"gewerkschaft", note:"Gewerkschaft"}},
-      {{name:"Aurich Bündnis gegen Rechts", city:"Aurich", lat:53.4697, lon:7.4829, category:"initiative", note:"Bündnis"}},
-      {{name:"Wilhelmshaven für Demokratie", city:"Wilhelmshaven", lat:53.5299, lon:8.1125, category:"initiative", note:"Küste"}},
-      {{name:"Kulturzentrum Lagerhalle", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"kultur", note:"Kulturort"}},
-      {{name:"Oldenburg für Demokratie", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Regional"}},
-      {{name:"Greenpeace Gruppe Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Regionalgruppe"}},
-      {{name:"AWO Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"sozial", note:"Regionalverband"}},
-      {{name:"ver.di Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"gewerkschaft", note:"Bezirk"}},
-      {{name:"Mobile Beratung Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"beratung", note:"Landesweit"}},
-      {{name:"Aufstehen gegen Rassismus", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit, Emsland-Bezug vorhanden"}},
-      {{name:"Eltern gegen Rechts (lokal)", city:"Emsland", lat:52.8170, lon:7.4000, category:"initiative", note:"Lokale Gruppe / Platzhalter"}}
+      {name:"Lingen ist bunt", city:"Lingen", lat:52.5232, lon:7.3173, category:"initiative", note:"Bündnis / regionaler Kernpunkt"},
+      {name:"Caritas Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"sozial", note:"Sozialer Träger"},
+      {name:"Jugendzentrum Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"jugend", note:"Jugendort"},
+      {name:"BUND Regionalgruppe Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"umwelt", note:"Regionalgruppe"},
+      {name:"Meppen gegen Rechts", city:"Meppen", lat:52.6906, lon:7.2909, category:"initiative", note:"Bündnis"},
+      {name:"Diakonie Emsland", city:"Meppen", lat:52.6950, lon:7.2900, category:"sozial", note:"Sozialer Träger"},
+      {name:"Jugendzentrum Meppen", city:"Meppen", lat:52.6950, lon:7.2900, category:"jugend", note:"Jugendort"},
+      {name:"Papenburg bleibt bunt", city:"Papenburg", lat:53.0770, lon:7.3950, category:"initiative", note:"Bündnis"},
+      {name:"Omas gegen Rechts Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"initiative", note:"Kontakt vorhanden"},
+      {name:"NABU Ostfriesland", city:"Leer", lat:53.2307, lon:7.4612, category:"umwelt", note:"Regional"},
+      {name:"Emden demokratisch", city:"Emden", lat:53.3671, lon:7.2078, category:"initiative", note:"Bündnis"},
+      {name:"Hochschule Emden/Leer", city:"Emden", lat:53.3671, lon:7.2078, category:"bildung", note:"Hochschule"},
+      {name:"IG Metall Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"gewerkschaft", note:"Gewerkschaft"},
+      {name:"Aurich Bündnis gegen Rechts", city:"Aurich", lat:53.4697, lon:7.4829, category:"initiative", note:"Bündnis"},
+      {name:"Wilhelmshaven für Demokratie", city:"Wilhelmshaven", lat:53.5299, lon:8.1125, category:"initiative", note:"Küste"},
+      {name:"Kulturzentrum Lagerhalle", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"kultur", note:"Kulturort"},
+      {name:"Oldenburg für Demokratie", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Regional"},
+      {name:"Greenpeace Gruppe Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Regionalgruppe"},
+      {name:"AWO Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"sozial", note:"Regionalverband"},
+      {name:"ver.di Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"gewerkschaft", note:"Bezirk"},
+      {name:"Mobile Beratung Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"beratung", note:"Landesweit"},
+      {name:"Aufstehen gegen Rassismus", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit, Emsland-Bezug vorhanden"},
+      {name:"Eltern gegen Rechts (lokal)", city:"Emsland", lat:52.8170, lon:7.4000, category:"initiative", note:"Lokale Gruppe / Platzhalter"}
     ];
 
     const active = new Set(Object.keys(categories));
-    const markers = {{}};
+    const markers = {};
     Object.keys(categories).forEach(k => markers[k] = []);
 
     const map = L.map('map').setView([52.95, 7.55], 8);
-    L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap'
-    }}).addTo(map);
+    }).addTo(map);
 
-    function makeIcon(color) {{
-      return L.divIcon({{
+    function makeIcon(color) {
+      return L.divIcon({
         className: '',
         html: '<div style="width:14px;height:14px;border-radius:50%;background:'+color+';border:2px solid white;box-shadow:0 0 0 1px rgba(0,0,0,.18);"></div>',
         iconSize:[18,18],
         iconAnchor:[9,9]
-      }});
-    }}
+      });
+    }
 
-    function popup(item) {{
+    function popup(item) {
       return '<b>'+item.name+'</b><br>'+item.city+'<br>'+item.note+'<br><span style="color:#5f6f86">'+categories[item.category].label+'</span>';
-    }}
+    }
 
-    partners.forEach(item => {{
-      const marker = L.marker([item.lat, item.lon], {{icon: makeIcon(categories[item.category].color)}}).bindPopup(popup(item));
+    partners.forEach(item => {
+      const marker = L.marker([item.lat, item.lon], {icon: makeIcon(categories[item.category].color)}).bindPopup(popup(item));
       marker.addTo(map);
       markers[item.category].push(marker);
-    }});
+    });
 
-    function renderFilters() {{
+    function renderFilters() {
       const box = document.getElementById('filters');
       box.innerHTML = '';
-      Object.entries(categories).forEach(([key, cat]) => {{
+      Object.entries(categories).forEach(([key, cat]) => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn active';
         btn.textContent = cat.label;
-        btn.onclick = () => {{
-          if(active.has(key)) {{
+        btn.onclick = () => {
+          if(active.has(key)) {
             active.delete(key);
             btn.classList.remove('active');
             markers[key].forEach(m => map.removeLayer(m));
-          }} else {{
+          } else {
             active.add(key);
             btn.classList.add('active');
             markers[key].forEach(m => m.addTo(map));
-          }}
+          }
           renderPartners();
-        }};
+        };
         box.appendChild(btn);
-      }});
-    }}
+      });
+    }
 
-    function renderPartners() {{
+    function renderPartners() {
       const q = document.getElementById('search').value.trim().toLowerCase();
-      const filtered = partners.filter(p => {{
+      const filtered = partners.filter(p => {
         const okCat = active.has(p.category);
         const hay = (p.name + ' ' + p.city + ' ' + p.note + ' ' + categories[p.category].label).toLowerCase();
         return okCat && (!q || hay.includes(q));
-      }});
+      });
 
       document.getElementById('partnerCount').textContent = filtered.length + ' Einträge sichtbar';
 
       document.getElementById('partnerList').innerHTML = filtered.map(p => `
         <div class="partner-item">
-          <span class="partner-dot" style="background:${{categories[p.category].color}}"></span>
+          <span class="partner-dot" style="background:${categories[p.category].color}"></span>
           <div>
-            <strong>${{p.name}}</strong>
-            <small>${{p.city}} · ${{categories[p.category].label}}</small>
+            <strong>${p.name}</strong>
+            <small>${p.city} · ${categories[p.category].label}</small>
           </div>
         </div>
       `).join('');
-    }}
+    }
 
     document.getElementById('search').addEventListener('input', renderPartners);
 
@@ -594,8 +590,8 @@ html = f"""<!DOCTYPE html>
 </html>
 """
 
-path = "/mnt/data/eine_ems_homepage_logo_karte_fix.html"
-with open(path, "w", encoding="utf-8") as f:
+index_path = "/mnt/data/index.html"
+with open(index_path, "w", encoding="utf-8") as f:
     f.write(html)
 
-print(path)
+print(index_path, logo_dst.exists(), str(logo_dst))
