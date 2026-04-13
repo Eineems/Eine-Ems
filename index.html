@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eine Ems – für alle</title>
+  <meta name="description" content="Eine Ems – für alle. Netzwerk für Vielfalt, Zusammenhalt und ein gutes Miteinander entlang der Ems – vom Emsland bis zur Nordsee." />
+  <style>
+    :root {
+      --blue: #1e5aa8;
+      --green: #4caf50;
+      --orange: #f57c00;
+      --dark: #16324f;
+      --light: #f7fbff;
+      --text: #1f2937;
+      --muted: #5f6b7a;
+      --card: #ffffff;
+      --border: #dbe7f3;
+      --shadow: 0 10px 30px rgba(22, 50, 79, 0.12);
+      --radius: 20px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f7fbff 0%, #eef6fb 100%);
+      line-height: 1.55;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(247, 251, 255, 0.9);
+      border-bottom: 1px solid rgba(30, 90, 168, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 72px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 2px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .button-secondary {
+      background: white;
+      border-color: var(--border);
+      color: var(--dark);
+    }
+
+    .hero {
+      padding: 72px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-card,
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 38px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: var(--blue);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    h1, h2, h3 {
+      color: var(--dark);
+      line-height: 1.15;
+      margin: 0 0 14px;
+    }
+
+    h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+    h3 { font-size: 1.15rem; }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .visual {
+      padding: 24px;
+      min-height: 360px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(76, 175, 80, 0.18), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(245, 124, 0, 0.16), transparent 30%),
+        linear-gradient(180deg, #ffffff, #eef7ff);
+    }
+
+    .river {
+      position: absolute;
+      inset: auto -5% 15% -5%;
+      height: 120px;
+      background: linear-gradient(90deg, rgba(30,90,168,0.95), rgba(76,175,80,0.9));
+      border-radius: 100px;
+      transform: rotate(-6deg);
+      opacity: 0.95;
+    }
+
+    .river::before,
+    .river::after {
+      content: "";
+      position: absolute;
+      inset: auto 10% -28px 10%;
+      height: 52px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .badge,
+    .stat {
+      position: absolute;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .badge small,
+    .stat small {
+      display: block;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .badge-1 { top: 24px; right: 24px; }
+    .badge-2 { top: 118px; left: 18px; }
+    .stat { bottom: 32px; right: 24px; }
+
+    section {
+      padding: 28px 0;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+    }
+
+    .grid-3,
+    .grid-4,
+    .grid-2 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+    .card {
+      padding: 22px;
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 22px;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+    }
+
+    .muted { color: var(--muted); }
+
+    .region-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--dark);
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(22, 50, 79, 0.06);
+    }
+
+    .cta {
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(30,90,168,0.96), rgba(76,175,80,0.92));
+      color: white;
+    }
+
+    .cta h2,
+    .cta p,
+    .cta a { color: white; }
+
+    .footer {
+      padding: 40px 0 56px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .mini-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .grid-3,
+      .grid-4,
+      .grid-2,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        padding: 10px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero { padding-top: 42px; }
+      .hero-card { padding: 26px; }
+      .visual { min-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-mark">🌊</div>
+        <div>Eine Ems – für alle</div>
+      </div>
+      <div class="nav-links">
+        <a href="#idee">Idee</a>
+        <a href="#region">Region</a>
+        <a href="#mitmachen">Mitmachen</a>
+        <a class="button button-secondary" href="mailto:eineems@web.de">eineems@web.de</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <div class="eyebrow">Netzwerk entlang der Ems</div>
+        <h1>Eine Ems – für alle</h1>
+        <p class="lead">
+          Gemeinsam für Vielfalt, Zusammenhalt und ein gutes Miteinander –
+          vom Emsland bis zur Nordsee.
+        </p>
+        <p class="lead">
+          Wir wollen Menschen, Gruppen, Initiativen, Vereine und engagierte Einzelpersonen sichtbar machen,
+          miteinander verbinden und den Austausch stärken.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="mailto:eineems@web.de">Jetzt Kontakt aufnehmen</a>
+          <a class="button button-secondary" href="#mitmachen">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <div class="hero-card visual" aria-hidden="true">
+        <div class="badge badge-1">Offen für alle<small>Initiativen, Vereine, Gruppen, Einzelpersonen</small></div>
+        <div class="badge badge-2">Region im Blick<small>Emsland · Ostfriesland · Nordsee</small></div>
+        <div class="stat">Gemeinsam sichtbar<small>vernetzen · austauschen · stärken</small></div>
+        <div class="river"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="idee">
+      <div class="container">
+        <div class="section-head">
+          <h2>Worum geht es?</h2>
+          <p class="muted">
+            Entlang der Ems engagieren sich viele Menschen. Oft passiert das noch nebeneinander statt miteinander.
+            „Eine Ems – für alle“ will genau hier ansetzen.
+          </p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🤝</div>
+            <h3>Verbinden</h3>
+            <p class="muted">Menschen und Gruppen zusammenbringen, die in der Region etwas bewegen wollen.</p>
+          </article>
+          <article class="card">
+            <div class="icon">💬</div>
+            <h3>Austausch stärken</h3>
+            <p class="muted">Ideen, Termine, Aktionen und Erfahrungen leichter teilen und sichtbar machen.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🌍</div>
+            <h3>Vielfalt sichtbar machen</h3>
+            <p class="muted">Zeigen, dass entlang der Ems viele Menschen für Zusammenhalt und Offenheit stehen.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="region">
+      <div class="container">
+        <div class="section-head">
+          <h2>Unsere Region</h2>
+          <p class="muted">
+            Der Blick geht bewusst weit: entlang der Ems und in den größeren Raum hinein – vom südlichen Emsland bis zur Küste.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Beispielhafte Orte und Knotenpunkte</h3>
+          <div class="region-list">
+            <span class="chip">Lingen</span>
+            <span class="chip">Meppen</span>
+            <span class="chip">Papenburg</span>
+            <span class="chip">Leer</span>
+            <span class="chip">Emden</span>
+            <span class="chip">Aurich</span>
+            <span class="chip">Wilhelmshaven</span>
+            <span class="chip">Nordhorn</span>
+            <span class="chip">Rheine</span>
+            <span class="chip">Osnabrück</span>
+            <span class="chip">Oldenburg</span>
+            <span class="chip">Bremen</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mitmachen">
+      <div class="container">
+        <div class="cta card">
+          <h2>Mach mit</h2>
+          <p>
+            Du möchtest dich vernetzen, austauschen oder einfach Kontakt aufnehmen?
+            Dann schreib uns.
+          </p>
+          <p>
+            <strong>E-Mail:</strong> <a href="mailto:eineems@web.de">eineems@web.de</a>
+          </p>
+          <div class="hero-actions">
+            <a class="button button-secondary" href="mailto:eineems@web.de">E-Mail schreiben</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Eine Ems – für alle</strong>
+        <p>
+          Gemeinsam stärker. Gemeinsam sichtbar.
+        </p>
+      </div>
+      <div>
+        <strong>Hinweis</strong>
+        <ul class="mini-list">
+          <li>Diese Seite ist als einfacher Startpunkt für GitHub Pages gedacht.</li>
+          <li>Texte, Farben und Bereiche lassen sich leicht erweitern.</li>
+          <li>Kontakt aktuell über E-Mail.</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
