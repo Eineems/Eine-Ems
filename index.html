@@ -288,7 +288,7 @@
     <section id="about">
       <h2 class="section-title">Unsere Karte: Gemeinsam für Solidarität und Vielfalt</h2>
       <p class="section-text">
-        Eine interaktive Karte zeigt, wo im Emsland, in Ostfriesland und im weiteren Raum
+        Eine interaktive Karte zeigt, wo von der Quelle bis zur Mündung und im weiteren Raum
         Initiativen, soziale Träger, Umweltgruppen, Jugendorte, Gewerkschaften und weitere
         Partner aktiv sind.
       </p>
@@ -390,28 +390,69 @@
 
     const partners = [
       {name:"Lingen ist bunt", city:"Lingen", lat:52.5232, lon:7.3173, category:"initiative", note:"Bündnis / regionaler Kernpunkt"},
-      {name:"Caritas Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"sozial", note:"Sozialer Träger"},
-      {name:"Jugendzentrum Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"jugend", note:"Jugendort"},
-      {name:"BUND Regionalgruppe Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"umwelt", note:"Regionalgruppe"},
+      {name:"Caritas Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"sozial", note:"Caritasverband im Emsland"},
+      {name:"Jugendzentrum Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"jugend", note:"Jugendort / potenzieller Partner"},
+      {name:"BUND Regionalgruppe Emsland", city:"Lingen", lat:52.5232, lon:7.3173, category:"umwelt", note:"Regionalgruppe / potenzieller Partner"},
+      {name:"NABU Emsland Süd", city:"Lingen", lat:52.5232, lon:7.3173, category:"umwelt", note:"NABU-Gruppe für Lingen, Lengerich, Freren, Spelle, Emsbüren und Salzbergen"},
+      {name:"Ev. Kirche Lingen", city:"Lingen", lat:52.5232, lon:7.3173, category:"kirche", note:"Kirchlicher Anknüpfungspunkt"},
+
       {name:"Meppen gegen Rechts", city:"Meppen", lat:52.6906, lon:7.2909, category:"initiative", note:"Bündnis"},
-      {name:"Diakonie Emsland", city:"Meppen", lat:52.6950, lon:7.2900, category:"sozial", note:"Sozialer Träger"},
+      {name:"Diakonie Emsland", city:"Meppen", lat:52.6950, lon:7.2900, category:"sozial", note:"Diakonisches Werk / potenzieller Partner"},
       {name:"Jugendzentrum Meppen", city:"Meppen", lat:52.6950, lon:7.2900, category:"jugend", note:"Jugendort"},
+      {name:"NABU Emsland / Grafschaft Bentheim", city:"Meppen", lat:52.6906, lon:7.2909, category:"umwelt", note:"Regionalgeschäftsstelle in Meppen"},
+      {name:"Fanprojekt SV Meppen", city:"Meppen", lat:52.6950, lon:7.2900, category:"sport", note:"Sport / Jugendarbeit"},
+
       {name:"Papenburg bleibt bunt", city:"Papenburg", lat:53.0770, lon:7.3950, category:"initiative", note:"Bündnis"},
-      {name:"Omas gegen Rechts Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"initiative", note:"Kontakt vorhanden"},
-      {name:"NABU Ostfriesland", city:"Leer", lat:53.2307, lon:7.4612, category:"umwelt", note:"Regional"},
+      {name:"DRK Emsland", city:"Papenburg", lat:53.0770, lon:7.3950, category:"sozial", note:"Kreisverband / potenzieller Partner"},
+      {name:"Kath. Kirche Papenburg", city:"Papenburg", lat:53.0770, lon:7.3950, category:"kirche", note:"Kirchlicher Anknüpfungspunkt"},
+      {name:"Klimagruppe Papenburg", city:"Papenburg", lat:53.0770, lon:7.3950, category:"umwelt", note:"Lokaler Umweltbezug"},
+      {name:"NABU Emsland Nord", city:"Papenburg", lat:53.0770, lon:7.3950, category:"umwelt", note:"NABU-Gruppe im nördlichen Emsland"},
+
+      {name:"Omas gegen Rechts Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"initiative", note:"Regionalgruppe / bereits bekannter Kontakt"},
+      {name:"NABU Ostfriesland", city:"Leer", lat:53.2307, lon:7.4612, category:"umwelt", note:"Regional / potenzieller Partner"},
+      {name:"Jugendzentrum Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"jugend", note:"Jugendort"},
+      {name:"Moscheeverein Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"kirche", note:"Religionsgemeinschaft / potenzieller Partner"},
+      {name:"Kulturverein Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"kultur", note:"Kultur / potenzieller Partner"},
+      {name:"VHS Leer", city:"Leer", lat:53.2307, lon:7.4612, category:"bildung", note:"Bildungseinrichtung / Interkulturelle Woche und Integrationsbezug"},
+
       {name:"Emden demokratisch", city:"Emden", lat:53.3671, lon:7.2078, category:"initiative", note:"Bündnis"},
-      {name:"Hochschule Emden/Leer", city:"Emden", lat:53.3671, lon:7.2078, category:"bildung", note:"Hochschule"},
+      {name:"Bündnis für Demokratie Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"initiative", note:"Potenzieller lokaler Knotenpunkt"},
+      {name:"Hochschule Emden/Leer", city:"Emden", lat:53.3671, lon:7.2078, category:"bildung", note:"Hochschule / Werte-, Nachhaltigkeits- und Diversitätsbezug"},
       {name:"IG Metall Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"gewerkschaft", note:"Gewerkschaft"},
+      {name:"Fridays for Future Emden", city:"Emden", lat:53.3671, lon:7.2078, category:"umwelt", note:"Initiative / potenzieller Partner"},
+
       {name:"Aurich Bündnis gegen Rechts", city:"Aurich", lat:53.4697, lon:7.4829, category:"initiative", note:"Bündnis"},
-      {name:"Wilhelmshaven für Demokratie", city:"Wilhelmshaven", lat:53.5299, lon:8.1125, category:"initiative", note:"Küste"},
-      {name:"Kulturzentrum Lagerhalle", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"kultur", note:"Kulturort"},
-      {name:"Oldenburg für Demokratie", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Regional"},
-      {name:"Greenpeace Gruppe Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Regionalgruppe"},
-      {name:"AWO Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"sozial", note:"Regionalverband"},
+      {name:"Sozialzentrum Aurich", city:"Aurich", lat:53.4697, lon:7.4829, category:"sozial", note:"Potenzieller Partner"},
+      {name:"Alte Schlachthof Jugendzentrum", city:"Aurich", lat:53.4697, lon:7.4829, category:"kultur", note:"Kultur / Jugend"},
+
+      {name:"Wilhelmshaven für Demokratie", city:"Wilhelmshaven", lat:53.5299, lon:8.1125, category:"initiative", note:"Küste / potenzieller Partner"},
+      {name:"Nordhorn gegen Rechts", city:"Nordhorn", lat:52.4308, lon:7.0678, category:"initiative", note:"Grafschaft Bentheim"},
+      {name:"Rheine bleibt bunt", city:"Rheine", lat:52.2851, lon:7.4406, category:"initiative", note:"Südlicher Ems-Raum"},
+      {name:"Kulturzentrum Lagerhalle", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"kultur", note:"Kulturort / Multiplikator"},
+      {name:"Osnabrück gegen Rechts", city:"Osnabrück", lat:52.2799, lon:8.0472, category:"initiative", note:"Region / potenzieller Partner"},
+
+      {name:"Oldenburg für Demokratie", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Regionaler Hub"},
+      {name:"Universität Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"bildung", note:"Hochschule / potenzieller Partner"},
+      {name:"AWO Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"sozial", note:"Regionalverband in Weser-Ems"},
       {name:"ver.di Weser-Ems", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"gewerkschaft", note:"Bezirk"},
-      {name:"Mobile Beratung Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"beratung", note:"Landesweit"},
-      {name:"Aufstehen gegen Rassismus", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit, Emsland-Bezug vorhanden"},
-      {name:"Eltern gegen Rechts (lokal)", city:"Emsland", lat:52.8170, lon:7.4000, category:"initiative", note:"Lokale Gruppe / Platzhalter"}
+      {name:"Greenpeace Gruppe Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Potenzieller regionaler Partner"},
+      {name:"Fridays for Future Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"umwelt", note:"Initiative"},
+      {name:"Netzwerk Vielfalt Oldenburg", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"initiative", note:"Potenzieller lokaler Knotenpunkt"},
+
+      {name:"Bremen gegen Rechts", city:"Bremen", lat:53.0793, lon:8.8017, category:"initiative", note:"Überregionaler Hub"},
+
+      {name:"Mobile Beratung Niedersachsen", city:"Oldenburg", lat:53.1435, lon:8.2146, category:"beratung", note:"Regionalbüro Nord/West in Oldenburg"},
+      {name:"Flüchtlingsrat Niedersachsen", city:"Hannover", lat:52.3759, lon:9.7320, category:"sozial", note:"Landesweiter Vernetzungspartner"},
+      {name:"DGB Niedersachsen", city:"Hannover", lat:52.3759, lon:9.7320, category:"gewerkschaft", note:"Landesweit"},
+      {name:"Rote Linie Niedersachsen", city:"Niedersachsen", lat:52.6367, lon:9.8451, category:"beratung", note:"Ausstieg / Beratung landesweit"},
+      {name:"BUND Niedersachsen", city:"Hannover", lat:52.3759, lon:9.7320, category:"umwelt", note:"Landesverband"},
+      {name:"NABU Niedersachsen", city:"Hannover", lat:52.3759, lon:9.7320, category:"umwelt", note:"Landesverband"},
+      {name:"Omas gegen Rechts", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit / Regionalgruppen"},
+      {name:"Aufstehen gegen Rassismus", city:"Deutschland", lat:51.1657, lon:10.4515, category:"initiative", note:"Bundesweit; Bezug zu Meppen und Papenburg dokumentiert"},
+
+      {name:"Eltern gegen Rechts (lokal)", city:"Emsland", lat:52.8170, lon:7.4000, category:"initiative", note:"Platzhalter für lokale Gruppen"},
+      {name:"Bandkollektiv Emsland", city:"Emsland", lat:52.8170, lon:7.4000, category:"kultur", note:"Szene / Kultur"},
+      {name:"Jugendring Emsland", city:"Emsland", lat:52.8170, lon:7.4000, category:"jugend", note:"Regional / potenzieller Partner"}
     ];
 
     const active = new Set(Object.keys(categories));
